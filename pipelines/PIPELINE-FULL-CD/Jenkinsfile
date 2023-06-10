@@ -27,9 +27,24 @@ pipeline {
         stage('Production'){
             steps{
                 
-                echo 'Starting production job'
-                build job: 'PIPELINE-FULL-PRODUCTION', parameters: [
-                      string(name:'ENVIRONMENT', value: "production")]
+                script {
+                    try {
+                        echo 'Starting production job'
+                        build job: 'PIPELINE-FULL-PRODUCTION', parameters: [
+                              string(name:'ENVIRONMENT', value: "production")]
+                    } catch (Exception e) {
+                        echo 'Starting rollback job'
+                        sh """
+                            git checkout master
+                            git reset --hard HEAD~1
+                            git commit -am "Rollback to previous version"
+                            git push origin master
+                        """
+                        echo 'Starting production job again'
+                        build job: 'PIPELINE-FULL-PRODUCTION', parameters: [
+                              string(name:'ENVIRONMENT', value: "production")]
+                    }
+                }
             }
         }
     }
