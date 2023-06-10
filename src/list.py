@@ -8,8 +8,7 @@ def list(event, context):
     result = todoList.get_items()
     # create a response
     response = {
-        "statusCode": 500,
+        "statusCode": 200,
         "body": json.dumps(result, cls=decimalencoder.DecimalEncoder)
     }
-    
     return response
