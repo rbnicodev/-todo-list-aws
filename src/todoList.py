@@ -115,7 +115,8 @@ def delete_item(key, dynamodb=None):
         print(e.response['Error']['Message'])
     else:
         return
-    
+
+
 def translate_item(key, language, dynamodb=None):
     table = get_table(dynamodb)
     text = ""
@@ -136,7 +137,6 @@ def translate_item(key, language, dynamodb=None):
             translated_text = translator.translate(text, dest=language).text
             result['Item']['text'] = translated_text
             return result['Item']
-    
 
 
 def create_todo_table(dynamodb):
