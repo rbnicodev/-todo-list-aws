@@ -4,6 +4,7 @@ import time
 import uuid
 import json
 import functools
+from googletrans import Translator
 from botocore.exceptions import ClientError
 
 
@@ -114,6 +115,28 @@ def delete_item(key, dynamodb=None):
         print(e.response['Error']['Message'])
     else:
         return
+    
+def translate_item(key, language, dynamodb=None):
+    table = get_table(dynamodb)
+    text = ""
+    try:
+        result = table.get_item(
+            Key={
+                'id': key
+            }
+        )
+
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        print('Result getItem:'+str(result))
+        if 'Item' in result:
+            text = result['Item']['text']
+            translator = Translator()
+            translated_text = translator.translate(text, dest=language).text
+            result['Item']['text'] = translated_text
+            return result['Item']
+    
 
 
 def create_todo_table(dynamodb):

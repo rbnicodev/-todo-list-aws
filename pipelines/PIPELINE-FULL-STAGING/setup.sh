@@ -4,6 +4,7 @@ set -x
 python3.7 -m venv todo-list-aws
 source todo-list-aws/bin/activate
 python -m pip install --upgrade pip
+python -m pip install googletrans==4.0.0-rc1
 #For static testing
 python -m pip install radon==5.1.0
 python -m pip install flake8==5.0.4
