@@ -133,8 +133,8 @@ class TestDatabaseFunctions(unittest.TestCase):
         # Testing file functions
         from src.todoList import translate_item
         # Table mock
-        self.assertRaises(Exception, get_item("", "es", self.dynamodb))
-        self.assertRaises(Exception, get_item("", "es", self.dynamodb))
+        self.assertRaises(Exception, translate_item("", "es", self.dynamodb))
+        self.assertRaises(Exception, translate_item("", "es", self.dynamodb))
         print ('End: test_get_todo_error')
         
     def test_get_todo_error(self):
